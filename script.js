@@ -1,10 +1,4 @@
-const TODOS = [
-    {
-        id: 1,
-        title: 'React Js',
-        description: 'Hello world how are you what are you doin Hello world how are you what are you doingg'
-    }
-]
+const TODOS = JSON.parse(localStorage.getItem('todos')) || []
 
 const addTodoBtn = document.querySelector('.add-btn')
 const addTodoOverly = document.getElementById('addTodo__overly')
@@ -13,25 +7,47 @@ const todoTitle = document.querySelector('.todo_title')
 const todoDesc = document.querySelector('.todo_des')
 const saveTodo = document.querySelector('.addTodo-btn')
 
+
+
+
 function addTodo() {
     addTodoOverly.style.display = 'flex'
 }
 
 
 function todoDetail() {
+
+    // GENERATE RANDOM COLOR
+
+    const hex = "BCDEF"; // only light hex digits
+    let color = "#";
+
+    for (let i = 0; i < 6; i++) {
+        color += hex[Math.floor(Math.random() * hex.length)];
+    }
+
+
     const title = todoTitle.value
     const des = todoDesc.value
     if (title == '' || des == '') {
         alert('Please enter your todo detail')
-    } else {
-        TODOS.push({ id: Date.now(), title, description: des })
-        showTodo()
-        todoTitle.value = ''
-        todoDesc.value = ''
+        return
     }
-
-
+    let todo = {
+        id: Date.now(),
+        title: title,
+        description: des,
+        color: color
+    }
+    TODOS.push(todo)
+    localStorage.setItem('todos', JSON.stringify(TODOS))
+    showTodo()
+    todoTitle.value = ''
+    todoDesc.value = ''
 }
+
+
+
 
 
 function showTodo() {
@@ -39,10 +55,10 @@ function showTodo() {
     todos.innerHTML = "";
     TODOS.forEach((todo) => {
         todos.innerHTML += `
-        <div class="card">
+        <div class="card" style="background-color:${todo.color} ;">
                     <div class="card-header">
                         <div class="header-left">
-                            <img src="/Images/check-box-empty.png" alt="Tick Icon" class="icon" onclick="completeTodo()">
+                            <img src="/Images/check-box-empty.png" alt="Tick Icon" class="icon" onclick="completeTodo(event)">
                             <h3 class="title">${todo.title}</h3>
                         </div>
                         <img src="./Images/dots.png" alt="More Options" class="more-icon">
@@ -59,9 +75,7 @@ function showTodo() {
 }
 
 
-function completeTodo() {
-    console.log('eh')
-}
+
 
 
 addTodoBtn.addEventListener('click', () => {
@@ -78,3 +92,6 @@ saveTodo.addEventListener('click', () => {
 })
 
 showTodo()
+
+
+
