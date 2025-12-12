@@ -1,4 +1,4 @@
-const TODOS = JSON.parse(localStorage.getItem('todos')) || []
+let TODOS = JSON.parse(localStorage.getItem('todos')) || []
 
 const addTodoBtn = document.querySelector('.add-btn')
 const addTodoOverly = document.getElementById('addTodo__overly')
@@ -61,7 +61,7 @@ function showTodo() {
                             <img src="/Images/check-box-empty.png" alt="Tick Icon" class="icon" onclick="completeTodo(event)">
                             <h3 class="title">${todo.title}</h3>
                         </div>
-                        <img src="./Images/dots.png" alt="More Options" class="more-icon">
+                        <img src="./Images/delete.png" alt="More Options"  data-id=${todo.id} class="more-icon" onclick="deleteTodo(event)">
                     </div>
                     <p class="description">${todo.description}</p>
                     
@@ -75,6 +75,16 @@ function showTodo() {
 }
 
 
+function completeTodo(e) {
+    console.log(e.target)
+}
+
+function deleteTodo(event) {
+    let id = Number(event.target.dataset.id)
+    TODOS = TODOS.filter((item) => item.id !== id); // save the filtered array
+    localStorage.setItem('todos', JSON.stringify(TODOS));
+    showTodo()
+}
 
 
 
