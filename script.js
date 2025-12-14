@@ -71,10 +71,15 @@ function showTodo() {
     TODOS.forEach(todo => {
         const card = document.createElement('div');
         card.className = 'card';
-        card.style.backgroundColor = todo.color;
+        if (todo.isCompleted) {
+            card.style.backgroundColor = '#FFC1C3'
+        } else {
+
+            card.style.backgroundColor = todo.color;
+        }
 
         card.innerHTML = `
-            <div class="card-header">
+            <div class="card-header ">
                 <div class="header-left" style="display:flex; align-items:center;">
                     <img src="${todo.isCompleted ? '/Images/check-box.png' : '/Images/check-box-empty.png'}" 
                          data-id="${todo.id}" 
@@ -93,6 +98,14 @@ function showTodo() {
     });
 }
 
+
+function switchButtons(e) {
+    if (e.target.classList.contains("btn")) {
+        document.querySelector(".btn.active")?.classList.remove("active");
+        e.target.classList.add("active");
+    }
+}
+
 // Toggle todo completion
 function completeTodo(id) {
     const matchedTodo = TODOS.find(item => item.id === id);
@@ -103,7 +116,7 @@ function completeTodo(id) {
     }
 }
 
-// Delete todo
+// Delete todo 
 function deleteTodo(id) {
     TODOS = TODOS.filter(item => item.id !== id);
     localStorage.setItem('todos', JSON.stringify(TODOS));
@@ -131,6 +144,13 @@ addTodoCancel.addEventListener('click', () => {
     secondTime.value = '';
 });
 saveTodo.addEventListener('click', todoDetail);
+let btns = document.querySelectorAll('.select__btn')
+console.log(btns)
+
+btns.forEach((btn) => btn.addEventListener('click', (e) => {
+    switchButtons(e)
+
+}))
 
 // Initial render on page load
 window.addEventListener('load', showTodo);
