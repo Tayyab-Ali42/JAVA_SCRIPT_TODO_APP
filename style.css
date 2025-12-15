@@ -141,6 +141,10 @@ img {
     background-color: red;
 }
 
+.completed {
+    text-decoration: line-through;
+}
+
 .card:hover {
     transform: translateY(-4px);
 }

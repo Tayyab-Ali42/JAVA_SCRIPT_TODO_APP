@@ -89,22 +89,33 @@ function showTodo() {
                 </div>
                 <img src="./Images/delete.png" alt="Delete" data-id="${todo.id}" class="more-icon">
             </div>
-            <p class="description">${todo.description}</p>
+            <p class="description ${todo.isCompleted ? 'completed' : ''}">${todo.description}</p>
             <div class="card-footer">
                 <span class="date">${todo.startTime || '10:30'} - ${todo.endTime || '12:00'}</span>
             </div>
         `;
         todosContainer.appendChild(card);
     });
+
 }
 
 
+
+// Toggle todo for complete or active todo
+function toggleTodo(e) {
+
+
+}
+
+
+// Toggle active buttons
 function switchButtons(e) {
     if (e.target.classList.contains("btn")) {
         document.querySelector(".btn.active")?.classList.remove("active");
         e.target.classList.add("active");
     }
 }
+
 
 // Toggle todo completion
 function completeTodo(id) {
@@ -149,7 +160,7 @@ console.log(btns)
 
 btns.forEach((btn) => btn.addEventListener('click', (e) => {
     switchButtons(e)
-
+    toggleTodo(e)
 }))
 
 // Initial render on page load
